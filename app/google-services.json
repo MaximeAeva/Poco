@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661508650874",
+    "project_id": "movementcollection-87405",
+    "storage_bucket": "movementcollection-87405.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661508650874:android:276f3a2e223e47cc1a08c3",
+        "android_client_info": {
+          "package_name": "fr.maximeaeva.pocketscoins"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661508650874-u0fp15qqr6lu0q8peodjic7unp0l16gj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVkiSqJA3KMpuRHZNO2Pyvzru1xLZsD9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661508650874-u0fp15qqr6lu0q8peodjic7unp0l16gj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

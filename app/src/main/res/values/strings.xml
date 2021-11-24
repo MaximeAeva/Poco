@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Pocket\'s coins</string>
+    <string name="app_short_name">PoCo</string>
+
+    <!-- Home page -->
+    <string name="home_page_title">COINS</string>
+    <string-array name="home_page_description_spinner_input">
+        <item>Sport</item>
+        <item>Loisirs</item>
+        <item>Nourriture</item>
+        <item>Immobilier</item>
+        <item>Salaire</item>
+        <item>Santé</item>
+        <item>Sorties</item>
+        <item>Mobilité</item>
+    </string-array>
+    <string name="home_page_edit">Value</string>
+    <string name="home_page_add">+</string>
+    <string name="home_page_remove">-</string>
+
+    <!-- Cheese page -->
+    <string name="cheese_page_title">GRAPHIC</string>
+
+    <!-- Curves page -->
+    <string name="curves_page_title">STATS</string>
+
+    <!-- Historic page -->
+    <string name="histo_page_title">HISTORIC</string>
+
+    <!-- Settings page -->
+    <string name="settings_page_title">SETTINGS</string>
+    <string name="settings_page_addItem">Add item</string>
+    <string name="settings_page_mode">Mode</string>
+</resources>
