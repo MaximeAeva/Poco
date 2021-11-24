@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/Value"
-        style="@style/Titlefont"
+        style="@style/Valuefont"
         android:text="0.0"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
 
         <EditText
             android:id="@+id/Input"
-            style="@style/Titlefont"
+            style="@style/Valuefont"
             android:layout_width="157dp"
             android:layout_height="102dp"
             android:gravity="center"

@@ -22,22 +22,27 @@
     <!-- Title font -->
     <style name="Titlefont">
         <item name="android:textColor">@color/med_blue</item>
-        <item name="android:textSize">50sp</item>
+        <item name="android:textSize">40sp</item>
         <item name="android:fontFamily">@font/coolvetica</item>
     </style>
     <!-- Text font -->
     <style name="Textfont">
-        <item name="android:textColor">@color/medplus_blue</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/textfont</item>
     </style>
-
+    <!-- Bold text font -->
     <style name="Textfontbold">
-        <item name="android:textColor">@color/medplus_blue</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/textfontbold</item>
     </style>
-
+    <!-- Values theme -->
+    <style name="Valuefont">
+        <item name="android:textColor">@color/medplus_blue</item>
+        <item name="android:textSize">60sp</item>
+        <item name="android:fontFamily">@font/coolvetica</item>
+    </style>
     <style name="SpinnerItem">
         <item name="android:textColor">#993399</item>
     </style>

@@ -21,11 +21,11 @@ class HistoricAdapter(
 
     //Box of controlled components
     class ViewHolder(view: android.view.View) : RecyclerView.ViewHolder(view){
-        val stonks = view.findViewById<ImageView>(R.id.item_stonks)
-        val value = view.findViewById<TextView>(R.id.item_value)
-        val mod = view.findViewById<TextView>(R.id.item_module)
-        val moreButton = view.findViewById<ImageView>(R.id.item_more) as ImageView
-        val desc = view.findViewById<TextView>(R.id.item_description) as TextView
+        var stonks = view.findViewById<ImageView>(R.id.item_stonks)
+        var value = view.findViewById<TextView>(R.id.item_value)
+        var mod = view.findViewById<TextView>(R.id.item_module)
+        var moreButton = view.findViewById<ImageView>(R.id.item_more) as ImageView
+        var desc = view.findViewById<TextView>(R.id.item_description) as TextView
         var bool = false
 
     }
@@ -39,6 +39,21 @@ class HistoricAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Catch movement info
         val currentMov = movList[position]
+        val choices = context.resources.getStringArray(R.array.home_page_description_spinner_input)
+
+        holder.value.setText(currentMov.value.toString())
+        holder.mod.setText(choices[currentMov.module].toString())
+        holder.desc.setText(currentMov.description)
+        if(currentMov.add){
+            holder.stonks.setImageResource(R.drawable.ic_climb_foreground)
+        }else if(currentMov.value<50){
+            holder.stonks.setImageResource(R.drawable.ic_decrease_slow_foreground)
+        }else if(currentMov.value<500){
+            holder.stonks.setImageResource(R.drawable.ic_decrease_med_foreground)
+        }else{
+            holder.stonks.setImageResource(R.drawable.ic_decrease_fast_foreground)
+        }
+        holder.stonks
 
         holder.moreButton.setOnClickListener {
             if (holder.bool) {

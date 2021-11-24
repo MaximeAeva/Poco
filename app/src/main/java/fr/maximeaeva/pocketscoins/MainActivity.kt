@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         // Inject fragment
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, HomeFragment(this))
-        //transaction.replace(R.id.fragment_container, HistoricFragment(this))
+        //transaction.replace(R.id.fragment_container, HomeFragment(this))
+        transaction.replace(R.id.fragment_container, HistoricFragment(this))
         transaction.addToBackStack(null)
         transaction.commit()
     }

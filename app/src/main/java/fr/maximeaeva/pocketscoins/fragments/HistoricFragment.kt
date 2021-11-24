@@ -35,12 +35,18 @@ class HistoricFragment(
         val movList = arrayListOf<Movement>()
 
         //Save first elemtn
-        movList.add(Movement(1, "Hey there", 0, false, 100.0, ""))
-        movList.add(Movement(1, "Hey there", 1, false, 20.0, ""))
-        movList.add(Movement(1, "Hey there", 2, false, 30.0, ""))
-        movList.add(Movement(1, "Hey there", 0, false, 0.52, ""))
-        movList.add(Movement(1, "Hey there", 8, false, 1.99, ""))
-        movList.add(Movement(1, "Hey there", 0, false, 100.0, ""))
+        movList.add(Movement(1, "I will decrease so fast", 0, false, 1000.0, ""))
+        movList.add(Movement(1, "Med decr", 1, false, 200.0, ""))
+        movList.add(Movement(1, "Just buy flowers !", 2, false, 30.0, ""))
+        movList.add(Movement(1, "Ow woaw !!", 3, true, 2500.0, ""))
+        movList.add(Movement(1, "Hey there", 5, false, 1.99, ""))
+        movList.add(Movement(1, "Hey there", 6, false, 100.0, ""))
+        movList.add(Movement(1, "I will decrease so fast", 0, false, 1000.0, ""))
+        movList.add(Movement(1, "Med decr", 1, false, 200.0, ""))
+        movList.add(Movement(1, "Just buy flowers !", 2, false, 30.0, ""))
+        movList.add(Movement(1, "Ow woaw !!", 3, true, 2500.0, ""))
+        movList.add(Movement(1, "Hey there", 5, false, 1.99, ""))
+        movList.add(Movement(1, "Hey there", 6, false, 100.0, ""))
 
         //Catch historic recycler
         val recyclerView = view.findViewById<RecyclerView>(R.id.historicView)
