@@ -11,10 +11,13 @@ import android.widget.*
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import fr.maximeaeva.pocketscoins.MainActivity
+import fr.maximeaeva.pocketscoins.Movement
+import fr.maximeaeva.pocketscoins.MovementRepository
 import fr.maximeaeva.pocketscoins.R
 
 class HomeFragment(
-    private val context: MainActivity
+    private val context: MainActivity,
+    private val movList: ArrayList<Movement>
 ) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,6 +30,10 @@ class HomeFragment(
         val choices = resources.getStringArray(R.array.home_page_description_spinner_input)
         val spinner = view.findViewById<Spinner>(R.id.module_spinner) as Spinner
 
+        //creating the instance of DatabaseHandler class
+        val databaseHandler = MovementRepository(context)
+        //calling the viewEmployee method of DatabaseHandler class to read the records
+        val pseudoMvList: List<Movement> = databaseHandler.viewMovement()
 
         if (spinner != null) {
             spinner.setSelection(0)
@@ -37,9 +44,7 @@ class HomeFragment(
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>,
-                                            view: View, position: Int, id: Long) {
-                    Toast.makeText(context, choices[position].toString(), Toast.LENGTH_SHORT).show()
-                }
+                                            view: View, position: Int, id: Long) {}
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }

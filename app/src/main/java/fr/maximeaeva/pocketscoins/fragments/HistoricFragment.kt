@@ -20,7 +20,8 @@ import androidx.cardview.widget.CardView
 
 
 class HistoricFragment(
-    private val context: MainActivity
+    private val context: MainActivity,
+    private val movList: ArrayList<Movement>
 ): Fragment() {
 
     override fun onCreateView(
@@ -31,22 +32,6 @@ class HistoricFragment(
     ): View? {
         val view = inflater?.inflate(R.layout.fragment_historic, container, false)
 
-        //List of movement
-        val movList = arrayListOf<Movement>()
-
-        //Save first elemtn
-        movList.add(Movement(1, "I will decrease so fast", 0, false, 1000.0, ""))
-        movList.add(Movement(1, "Med decr", 1, false, 200.0, ""))
-        movList.add(Movement(1, "Just buy flowers !", 2, false, 30.0, ""))
-        movList.add(Movement(1, "Ow woaw !!", 3, true, 2500.0, ""))
-        movList.add(Movement(1, "Hey there", 5, false, 1.99, ""))
-        movList.add(Movement(1, "Hey there", 6, false, 100.0, ""))
-        movList.add(Movement(1, "I will decrease so fast", 0, false, 1000.0, ""))
-        movList.add(Movement(1, "Med decr", 1, false, 200.0, ""))
-        movList.add(Movement(1, "Just buy flowers !", 2, false, 30.0, ""))
-        movList.add(Movement(1, "Ow woaw !!", 3, true, 2500.0, ""))
-        movList.add(Movement(1, "Hey there", 5, false, 1.99, ""))
-        movList.add(Movement(1, "Hey there", 6, false, 100.0, ""))
 
         //Catch historic recycler
         val recyclerView = view.findViewById<RecyclerView>(R.id.historicView)

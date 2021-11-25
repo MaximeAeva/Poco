@@ -2,6 +2,7 @@ package fr.maximeaeva.pocketscoins
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import fr.maximeaeva.pocketscoins.fragments.HistoricFragment
 import fr.maximeaeva.pocketscoins.fragments.HomeFragment
 
@@ -10,16 +11,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Load repository
-        //val repo = MovementRepository()
+        //creating the instance of DatabaseHandler class
+        val databaseHandler = MovementRepository(this)
+        //calling the viewEmployee method of DatabaseHandler class to read the records
+        val pseudoMvList: List<Movement> = databaseHandler.viewMovement()
+        val movList = arrayListOf<Movement>()
 
-        //Update repo
-        //repo.updateData()
+        if(pseudoMvList.isEmpty()){
+            movList.add(Movement(1, "None", 0,
+                false, 0.0, "2021-11-20 18:00:00.000"))
+        }else{
+            for(i in pseudoMvList)
+            movList.add(i)
+        }
 
         // Inject fragment
         val transaction = supportFragmentManager.beginTransaction()
-        //transaction.replace(R.id.fragment_container, HomeFragment(this))
-        transaction.replace(R.id.fragment_container, HistoricFragment(this))
+        //transaction.replace(R.id.fragment_container, HomeFragment(this, movList))
+        transaction.replace(R.id.fragment_container, HistoricFragment(this, movList))
         transaction.addToBackStack(null)
         transaction.commit()
     }

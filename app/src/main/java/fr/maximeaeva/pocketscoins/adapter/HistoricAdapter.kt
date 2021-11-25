@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.core.view.View
 import fr.maximeaeva.pocketscoins.MainActivity
@@ -24,7 +25,7 @@ class HistoricAdapter(
         var stonks = view.findViewById<ImageView>(R.id.item_stonks)
         var value = view.findViewById<TextView>(R.id.item_value)
         var mod = view.findViewById<TextView>(R.id.item_module)
-        var moreButton = view.findViewById<ImageView>(R.id.item_more) as ImageView
+        var moreButton = view.findViewById<ConstraintLayout>(R.id.item_histo) as ConstraintLayout
         var desc = view.findViewById<TextView>(R.id.item_description) as TextView
         var bool = false
 
