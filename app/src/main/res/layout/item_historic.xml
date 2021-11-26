@@ -64,13 +64,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/item_description"
-        style="@style/Textfont"
+    <LinearLayout
+        android:id="@+id/linear_popup"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:text="None"
-        android:layout_marginLeft="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_stonks"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_date"
+            style="@style/Textfont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:text="Date" />
+
+        <TextView
+            android:id="@+id/item_description"
+            style="@style/Textfont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:text="None" />
+
+        <ImageView
+            android:id="@+id/item_delete"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_delete_foreground" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

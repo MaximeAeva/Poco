@@ -25,6 +25,7 @@
     <Spinner
         android:id="@+id/module_spinner"
         android:background="@color/dark_blue_transparent"
+        android:popupBackground="@color/dark_blue_transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/default_margin"
@@ -52,7 +53,8 @@
             android:layout_width="157dp"
             android:layout_height="102dp"
             android:gravity="center"
-            android:text="0.0"
+            android:hint="0.0"
+            android:textColorHint="@color/light_grey"
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView2"
@@ -72,7 +74,8 @@
     <EditText
         android:id="@+id/description"
         style="@style/Textfontbold"
-        android:text="Description"
+        android:hint="Description"
+        android:textColorHint="@color/light_grey"
         android:layout_marginLeft="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
         android:layout_width="match_parent"

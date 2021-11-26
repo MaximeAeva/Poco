@@ -1,7 +1,9 @@
 package fr.maximeaeva.pocketscoins.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import fr.maximeaeva.pocketscoins.MainActivity
 import fr.maximeaeva.pocketscoins.Movement
@@ -16,9 +19,9 @@ import fr.maximeaeva.pocketscoins.MovementRepository
 import fr.maximeaeva.pocketscoins.R
 
 class HomeFragment(
-    private val context: MainActivity,
-    private val movList: ArrayList<Movement>
+    private val context: MainActivity
 ) : Fragment() {
+    @SuppressLint("WrongConstant")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,14 +35,11 @@ class HomeFragment(
 
         //creating the instance of DatabaseHandler class
         val databaseHandler = MovementRepository(context)
-        //calling the viewEmployee method of DatabaseHandler class to read the records
-        val pseudoMvList: List<Movement> = databaseHandler.viewMovement()
 
         if (spinner != null) {
             spinner.setSelection(0)
             val adapter = ArrayAdapter(context,
-                R.layout.spinner_list, choices)
-            adapter.setDropDownViewResource(R.layout.spinner_list)
+                android.R.layout.simple_spinner_item, choices)
             spinner.adapter = adapter
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -59,46 +59,56 @@ class HomeFragment(
         val inp = view.findViewById<EditText>(R.id.Input) as EditText
         val desc = view.findViewById<EditText>(R.id.description) as EditText
 
-        inp.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                inp.setText("")
-            }
-        }
+        //Set origine value
+        value.setText(String.format("%.2f", databaseHandler.bilan()))
 
-        desc.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                desc.setText("")
-            }
-        }
         //Plus and minus button
         val minusButton = view.findViewById<ImageView>(R.id.imageView) as ImageView
         val plusButton = view.findViewById<ImageView>(R.id.imageView2) as ImageView
 
         minusButton.setOnClickListener{
-            if(value.text.toString().trim().length>0)
+            var safeDesc = "None"
+            if(inp.text.toString().trim().isNotEmpty())
             {
-                var number = (value.text.toString()).toDouble()-inp.text.toString().toDouble();
-                value.setText(number.toString())
+                if(desc.text.toString().trim().isNotEmpty()){
+                    safeDesc = desc.text.toString()
+                }
+                val mov = Movement(0,
+                    safeDesc,
+                    spinner.selectedItemPosition,
+                    false,
+                    inp.text.toString().toDouble())
+                databaseHandler.addMovement(mov)
+                value.setText(String.format("%.2f", databaseHandler.bilan()))
+
             }
             view?.let { activity?.hideKeyboard(it) }
-            inp.setText("0.0")
             inp.clearFocus()
-            desc.setText("Description")
+            inp.text.clear()
             desc.clearFocus()
+            desc.text.clear()
             spinner.setSelection(0)
         }
         plusButton.setOnClickListener{
-            if(value.text.toString().trim().length>0)
+            var safeDesc = "None"
+            if(inp.text.toString().trim().isNotEmpty())
             {
-                var number = (value.text.toString()).toDouble()+inp.text.toString().toDouble()
-                value.setText(number.toString())
+                if(desc.text.toString().trim().isNotEmpty()){
+                    safeDesc = desc.text.toString()
+                }
+                val mov = Movement(0,
+                    safeDesc,
+                    spinner.selectedItemPosition,
+                    true,
+                    inp.text.toString().toDouble())
+                databaseHandler.addMovement(mov)
+                value.setText(String.format("%.2f", databaseHandler.bilan()))
             }
-            inp.setText("0.0")
-            inp.clearFocus()
-            desc.setText("Description")
-            desc.clearFocus()
-
             view?.let { activity?.hideKeyboard(it) }
+            inp.clearFocus()
+            inp.text.clear()
+            desc.clearFocus()
+            desc.text.clear()
             spinner.setSelection(0)
         }
 

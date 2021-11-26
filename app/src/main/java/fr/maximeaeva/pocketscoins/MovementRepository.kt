@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
     companion object {
         private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "PoCoDB"
+        private val DATABASE_NAME = "PoCoDB2"
         private val TABLE_MOV = "tableMovements"
         private val KEY_ID = "id"
         private val KEY_DESCRIPTION = "description"
@@ -29,7 +29,7 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
                 + KEY_MODULE + " INTEGER,"
                 + KEY_ADDON + " BOOLEAN,"
                 + KEY_VALUE + " REAL,"
-                + KEY_DATE + " DATE" + ")")
+                + KEY_DATE + " DATE DEFAULT (datetime('now','localtime'))" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
 
@@ -43,12 +43,10 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
     fun addMovement(mov: Movement):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, mov.id)
         contentValues.put(KEY_DESCRIPTION, mov.description)
         contentValues.put(KEY_MODULE, mov.module)
         contentValues.put(KEY_ADDON, mov.add)
         contentValues.put(KEY_VALUE, mov.value)
-        contentValues.put(KEY_DATE, mov.date)
         // Inserting Row
         val success = db.insert(TABLE_MOV, null, contentValues)
         //2nd argument is String containing nullColumnHack
@@ -79,7 +77,7 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
                 id = cursor.getInt(cursor.getColumnIndex("id"))
                 description = cursor.getString(cursor.getColumnIndex("description"))
                 module = cursor.getInt(cursor.getColumnIndex("module"))
-                add = cursor.getString(cursor.getColumnIndex("addon")).toBoolean()
+                add = cursor.getInt(cursor.getColumnIndex("addon"))>0
                 value = cursor.getDouble(cursor.getColumnIndex("value"))
                 date = cursor.getString(cursor.getColumnIndex("date"))
                 val mov= Movement( id,
@@ -111,14 +109,36 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
         return success
     }
     //method to delete data
-    fun deleteMovement(mov: Movement):Int{
+    fun deleteMovement(id: Int):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
-        contentValues.put(KEY_ID, mov.id) // EmpModelClass UserId
+        contentValues.put(KEY_ID, id)
         // Deleting Row
-        val success = db.delete(TABLE_MOV,"id="+mov.id,null)
+        val success = db.delete(TABLE_MOV,"id="+id,null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
+    }
+
+    //method to get the sum
+    fun bilan():Double{
+        val valQuery = "SELECT " +
+                "(SELECT SUM($KEY_VALUE) FROM $TABLE_MOV WHERE $KEY_ADDON) - " +
+                "(SELECT SUM($KEY_VALUE) FROM $TABLE_MOV WHERE NOT($KEY_ADDON)) as res"
+        val db = this.readableDatabase
+        var cursor: Cursor? = null
+        var res = 0.0
+        try{
+            cursor = db.rawQuery(valQuery, null)
+        }catch (e: SQLiteException) {
+            db.execSQL(valQuery)
+            return 0.0
+        }
+
+        if (cursor.moveToFirst()) {
+            res = cursor.getDouble(cursor.getColumnIndex("res"))
+        }
+        db.close()
+        return res
     }
 }

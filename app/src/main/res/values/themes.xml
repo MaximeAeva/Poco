@@ -11,6 +11,9 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Spinner -->
+        <item name="android:spinnerItemStyle">@style/Textfontbold</item>
+        <item name="android:spinnerDropDownItemStyle">@style/Textfontbold</item>
     </style>
 
     <!-- Title app font -->
