@@ -6,13 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/historic_title"
-        style="@style/Titlefont"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/histo_page_title"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historicView"

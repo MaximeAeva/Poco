@@ -4,7 +4,7 @@
     android:id="@+id/item_histo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dark_blue_transparent">
+    android:background="@color/dark_grey">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -67,7 +67,7 @@
     <LinearLayout
         android:id="@+id/linear_popup"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_stonks"
@@ -89,11 +89,23 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:text="None" />
 
-        <ImageView
-            android:id="@+id/item_delete"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_delete_foreground" />
+        <LinearLayout
+            android:id="@+id/linear_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/item_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_edit_foreground" />
+
+            <ImageView
+                android:id="@+id/item_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_delete_foreground" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
