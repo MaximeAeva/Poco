@@ -23,10 +23,10 @@
         <item name="android:fontFamily">@font/titleappfont</item>
     </style>
     <!-- Title font -->
-    <style name="Titlefont">
-        <item name="android:textColor">@color/med_blue</item>
-        <item name="android:textSize">40sp</item>
-        <item name="android:fontFamily">@font/coolvetica</item>
+    <style name="ValueDisplay">
+        <item name="android:textColor">@color/medplus_blue</item>
+        <item name="android:textSize">120sp</item>
+        <item name="android:fontFamily">@font/textfontbold</item>
     </style>
     <!-- Text font -->
     <style name="Textfont">

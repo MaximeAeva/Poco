@@ -67,7 +67,7 @@
     <LinearLayout
         android:id="@+id/linear_popup"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_stonks"
@@ -91,21 +91,30 @@
 
         <LinearLayout
             android:id="@+id/linear_buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintRight_toEndOf="parent"
+            app:layout_constraintLeft_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_description"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/item_edit"
-                android:layout_width="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_edit_foreground" />
 
             <ImageView
                 android:id="@+id/item_delete"
-                android:layout_width="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_delete_foreground" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
