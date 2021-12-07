@@ -6,6 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/item_style_list"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginRight="@dimen/default_margin"
+        android:src="@drawable/ic_outline_foreground"
+        android:layout_gravity="right"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historicView"
@@ -17,4 +24,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+</LinearLayout>ayout>

@@ -1,5 +1,8 @@
 package fr.maximeaeva.pocketscoins.adapter
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -18,7 +21,7 @@ import kotlinx.android.synthetic.main.item_historic.*
 
 class HistoricAdapter(
     private val context: MainActivity,
-    private val movList: List<Movement>,
+    private var movList: ArrayList<Movement>,
     private val layoutId: Int
 ) : RecyclerView.Adapter<HistoricAdapter.ViewHolder>(){
 
@@ -39,16 +42,32 @@ class HistoricAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context).inflate(layoutId, parent, false)
+
+        ViewHolder(view).moreButton.setOnClickListener {
+            if (ViewHolder(view).bool) {
+                ViewHolder(view).lay.layoutParams.height = ViewGroup.INVISIBLE
+                ViewHolder(view).lay.requestLayout()
+                ViewHolder(view).bool = false
+            } else {
+                ViewHolder(view).lay.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewHolder(view).lay.requestLayout()
+                ViewHolder(view).bool = true
+            }
+        }
+
         return ViewHolder(view)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Catch movement info
         val currentMov = movList[position]
         val choices = context.resources.getStringArray(R.array.home_page_description_spinner_input)
         //creating the instance of DatabaseHandler class
         val databaseHandler = MovementRepository(context)
-
+        if(currentMov.delete){
+            holder.moreButton.setBackgroundColor(R.color.red_transparent)
+        }
         holder.value.setText(currentMov.value.toString())
         holder.mod.setText(choices[currentMov.module].toString())
         holder.desc.setText(currentMov.description)
@@ -63,21 +82,11 @@ class HistoricAdapter(
             holder.stonks.setImageResource(R.drawable.ic_decrease_fast_foreground)
         }
         holder.stonks
-
-        holder.moreButton.setOnClickListener {
-            if (holder.bool) {
-                holder.lay.layoutParams.height = ViewGroup.INVISIBLE
-                holder.lay.requestLayout()
-                holder.bool = false
-            } else {
-                holder.lay.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                holder.lay.requestLayout()
-                holder.bool = true
-            }
-        }
-
         holder.del.setOnClickListener{
-            databaseHandler.deleteMovement(currentMov.id)
+            val position = holder.adapterPosition
+            Log.d("Position value", "$position")
+            movList.removeAt(position)
+            notifyItemRemoved(position)
         }
     }
 

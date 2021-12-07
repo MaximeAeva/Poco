@@ -62,13 +62,11 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onSwipeUp() {
                 super.onSwipeUp()
-                Toast.makeText(this@MainActivity, "Swipe up gesture detected", Toast.LENGTH_SHORT)
-                    .show()
             }
             override fun onSwipeDown() {
                 super.onSwipeDown()
-                Toast.makeText(this@MainActivity, "Swipe down gesture detected", Toast.LENGTH_SHORT)
-                    .show()
+                var movList = loadMovList()
+                loader(movList, page)
             }
         })
         //transaction.replace(R.id.fragment_container, HistoricFragment(this, movList))

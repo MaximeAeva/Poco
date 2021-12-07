@@ -9,11 +9,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#CEC8C7C7</color>
     <color name="dark_grey">#555555</color>
+    <color name="red">#C34D4D</color>
+    <color name="green">#4CAE50</color>
+    <color name="blue">#478EC6</color>
 
     <color name="med_blue">#1F438C</color>
-    <color name="medmin_blue">#1D3973</color>
-    <color name="dark_blue">#162440</color>
-    <color name="medplus_blue">#138AF2</color>
+    <color name="medmin_blue">#304675</color>
+    <color name="dark_blue">#313F5A</color>
+    <color name="medplus_blue">#68A9E2</color>
     <color name="light_blue">#0CF2F2</color>
     <color name="dark_blue_transparent">#921C325E</color>
+    <color name="red_transparent">#BFB81515</color>
 </resources>

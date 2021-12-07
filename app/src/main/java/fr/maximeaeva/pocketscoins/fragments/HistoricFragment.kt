@@ -13,11 +13,6 @@ import fr.maximeaeva.pocketscoins.R
 import fr.maximeaeva.pocketscoins.adapter.HistoricAdapter
 import fr.maximeaeva.pocketscoins.adapter.HistoricItemDecoration
 
-import android.content.Intent
-import android.widget.TextView
-import android.widget.Toast
-import androidx.cardview.widget.CardView
-
 
 class HistoricFragment(
     private val context: MainActivity,
@@ -31,11 +26,27 @@ class HistoricFragment(
 
     ): View? {
         val view = inflater?.inflate(R.layout.fragment_historic, container, false)
-
-
+        val styleList = view.findViewById<ImageView>(R.id.item_style_list) as ImageView
+        styleList.setImageResource(R.drawable.ic_outline_foreground)
+        val movListCast = movList.toList<Movement>()
+        var boolClick = false
         //Catch historic recycler
         val recyclerView = view.findViewById<RecyclerView>(R.id.historicView)
-        recyclerView.adapter = HistoricAdapter(context, movList, R.layout.item_historic)
+        recyclerView.adapter = HistoricAdapter(context,
+            movListCast.filter { !it.delete } as ArrayList<Movement>, R.layout.item_historic)
+
+        styleList.setOnClickListener {
+            boolClick = !boolClick
+            if(boolClick){
+                recyclerView.adapter = HistoricAdapter(context, movList, R.layout.item_historic)
+                styleList.setImageResource(R.drawable.ic_delete_foreground)
+            }else{
+                recyclerView.adapter = HistoricAdapter(context,
+                    movListCast.filter { !it.delete } as ArrayList<Movement>, R.layout.item_historic)
+                styleList.setImageResource(R.drawable.ic_outline_foreground)
+            }
+        }
+
         recyclerView.addItemDecoration(HistoricItemDecoration())
         return view
     }
