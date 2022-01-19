@@ -36,24 +36,12 @@ class HistoricAdapter(
         var lay = view.findViewById<LinearLayout>(R.id.linear_popup) as LinearLayout
         var del = view.findViewById<ImageView>(R.id.item_delete) as ImageView
         var bool = false
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context).inflate(layoutId, parent, false)
 
-        ViewHolder(view).moreButton.setOnClickListener {
-            if (ViewHolder(view).bool) {
-                ViewHolder(view).lay.layoutParams.height = ViewGroup.INVISIBLE
-                ViewHolder(view).lay.requestLayout()
-                ViewHolder(view).bool = false
-            } else {
-                ViewHolder(view).lay.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                ViewHolder(view).lay.requestLayout()
-                ViewHolder(view).bool = true
-            }
-        }
 
         return ViewHolder(view)
     }
@@ -65,6 +53,19 @@ class HistoricAdapter(
         val choices = context.resources.getStringArray(R.array.home_page_description_spinner_input)
         //creating the instance of DatabaseHandler class
         val databaseHandler = MovementRepository(context)
+        holder.moreButton.setOnClickListener {
+            if (holder.bool) {
+                Log.d("display state : ", "${holder.bool}")
+                holder.lay.layoutParams.height = ViewGroup.INVISIBLE
+                holder.lay.requestLayout()
+            } else {
+                Log.d("display state : ", "${holder.bool}")
+                holder.lay.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                holder.lay.requestLayout()
+            }
+            holder.bool = !(holder.bool)
+            Log.d("future state : ", "${holder.bool}")
+        }
         if(currentMov.delete){
             holder.moreButton.setBackgroundColor(R.color.red_transparent)
         }
@@ -84,9 +85,14 @@ class HistoricAdapter(
         holder.stonks
         holder.del.setOnClickListener{
             val position = holder.adapterPosition
+            currentMov.delete= !(currentMov.delete)
+            databaseHandler.updateMovement(currentMov)
             Log.d("Position value", "$position")
-            movList.removeAt(position)
-            notifyItemRemoved(position)
+            Log.d("Bool", "${currentMov.delete}")
+            if(currentMov.delete){
+                movList.removeAt(position)
+                notifyItemRemoved(position)
+            }
         }
     }
 
