@@ -7,5 +7,5 @@ class Movement (
     var add: Boolean = false,
     var value: Double = 0.0,
     var date: String = "2021-11-20",
-    var delete: Boolean = false
+    var del: Boolean = false
 )

@@ -2,6 +2,7 @@ package fr.maximeaeva.pocketscoins
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,6 +12,8 @@ import fr.maximeaeva.pocketscoins.fragments.HistoricFragment
 import fr.maximeaeva.pocketscoins.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
+    private val databaseHandler = MovementRepository(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,19 +32,7 @@ class MainActivity : AppCompatActivity() {
         //creating the instance of DatabaseHandler class
         val databaseHandler = MovementRepository(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
-        fun loadMovList():ArrayList<Movement>{
-            val pseudoMvList: List<Movement> = databaseHandler.viewMovement().reversed()
-            val movList = arrayListOf<Movement>()
 
-            if(pseudoMvList.isEmpty()){
-                movList.add(Movement(1, "None", 0,
-                    false, 0.0, "2021-11-20"))
-            }else{
-                for(i in pseudoMvList)
-                    movList.add(i)
-            }
-            return movList
-        }
         var movList = loadMovList()
 
         // Inject fragment
@@ -71,5 +62,25 @@ class MainActivity : AppCompatActivity() {
         })
         //transaction.replace(R.id.fragment_container, HistoricFragment(this, movList))
 
+    }
+
+    override fun onStop() {
+        databaseHandler.cleanMovement()
+        super.onStop()
+    }
+
+    fun loadMovList():ArrayList<Movement>{
+
+        val pseudoMvList: List<Movement> = databaseHandler.viewMovement().reversed()
+        val movList = arrayListOf<Movement>()
+
+        if(pseudoMvList.isEmpty()){
+            movList.add(Movement(1, "None", 0,
+                false, 0.0, "2021-11-20"))
+        }else{
+            for(i in pseudoMvList)
+                movList.add(i)
+        }
+        return movList
     }
 }

@@ -33,7 +33,7 @@ class HistoricFragment(
         //Catch historic recycler
         val recyclerView = view.findViewById<RecyclerView>(R.id.historicView)
         recyclerView.adapter = HistoricAdapter(context,
-            movListCast.filter { !it.delete } as ArrayList<Movement>, R.layout.item_historic)
+            movListCast.filter { !it.del } as ArrayList<Movement>, R.layout.item_historic)
 
         styleList.setOnClickListener {
             boolClick = !boolClick
@@ -42,7 +42,7 @@ class HistoricFragment(
                 styleList.setImageResource(R.drawable.ic_delete_foreground)
             }else{
                 recyclerView.adapter = HistoricAdapter(context,
-                    movListCast.filter { !it.delete } as ArrayList<Movement>, R.layout.item_historic)
+                    movListCast.filter { !it.del } as ArrayList<Movement>, R.layout.item_historic)
                 styleList.setImageResource(R.drawable.ic_outline_foreground)
             }
         }

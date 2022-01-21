@@ -1,23 +1,19 @@
 package fr.maximeaeva.pocketscoins.adapter
 
+import HistoPopup
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.core.view.View
 import fr.maximeaeva.pocketscoins.MainActivity
 import fr.maximeaeva.pocketscoins.Movement
 import fr.maximeaeva.pocketscoins.MovementRepository
 import fr.maximeaeva.pocketscoins.R
-import kotlinx.android.synthetic.main.item_historic.*
 
 class HistoricAdapter(
     private val context: MainActivity,
@@ -35,6 +31,7 @@ class HistoricAdapter(
         var desc = view.findViewById<TextView>(R.id.item_description) as TextView
         var lay = view.findViewById<LinearLayout>(R.id.linear_popup) as LinearLayout
         var del = view.findViewById<ImageView>(R.id.item_delete) as ImageView
+        var edi = view.findViewById<ImageView>(R.id.item_edit) as ImageView
         var bool = false
     }
 
@@ -42,31 +39,28 @@ class HistoricAdapter(
         val view = LayoutInflater
             .from(parent.context).inflate(layoutId, parent, false)
 
-
         return ViewHolder(view)
     }
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Catch movement info
+        val editPopop = HistoPopup()
         val currentMov = movList[position]
         val choices = context.resources.getStringArray(R.array.home_page_description_spinner_input)
         //creating the instance of DatabaseHandler class
         val databaseHandler = MovementRepository(context)
         holder.moreButton.setOnClickListener {
             if (holder.bool) {
-                Log.d("display state : ", "${holder.bool}")
                 holder.lay.layoutParams.height = ViewGroup.INVISIBLE
                 holder.lay.requestLayout()
             } else {
-                Log.d("display state : ", "${holder.bool}")
                 holder.lay.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 holder.lay.requestLayout()
             }
             holder.bool = !(holder.bool)
-            Log.d("future state : ", "${holder.bool}")
         }
-        if(currentMov.delete){
+        if(currentMov.del){
             holder.moreButton.setBackgroundColor(R.color.red_transparent)
         }
         holder.value.setText(currentMov.value.toString())
@@ -85,14 +79,21 @@ class HistoricAdapter(
         holder.stonks
         holder.del.setOnClickListener{
             val position = holder.adapterPosition
-            currentMov.delete= !(currentMov.delete)
+            currentMov.del= !(currentMov.del)
             databaseHandler.updateMovement(currentMov)
+            holder.lay.layoutParams.height = ViewGroup.INVISIBLE
+            holder.lay.requestLayout()
             Log.d("Position value", "$position")
-            Log.d("Bool", "${currentMov.delete}")
-            if(currentMov.delete){
+            Log.d("Bool", "${currentMov.del}")
+            if(currentMov.del){
                 movList.removeAt(position)
                 notifyItemRemoved(position)
             }
+        }
+        holder.edi.setOnClickListener {
+            editPopop.showPopMenu(context, it)
+            holder.lay.layoutParams.height = ViewGroup.INVISIBLE
+            holder.lay.requestLayout()
         }
     }
 

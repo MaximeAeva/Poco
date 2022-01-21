@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
     companion object {
         private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "PoCoDB2"
+        private val DATABASE_NAME = "PoCoDatabaseTest"
         private val TABLE_MOV = "tableMovements"
         private val KEY_ID = "id"
         private val KEY_DESCRIPTION = "description"
@@ -19,6 +19,7 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
         private val KEY_ADDON = "addon"
         private val KEY_VALUE = "value"
         private val KEY_DATE = "date"
+        private val KEY_DEL = "del"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -29,7 +30,8 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
                 + KEY_MODULE + " INTEGER,"
                 + KEY_ADDON + " BOOLEAN,"
                 + KEY_VALUE + " REAL,"
-                + KEY_DATE + " DATE DEFAULT (datetime('now','localtime'))" + ")")
+                + KEY_DATE + " DATE DEFAULT (datetime('now','localtime')), "
+                + KEY_DEL + " BOOLEAN DEFAULT 0" + ")")
         db?.execSQL(CREATE_CONTACTS_TABLE)
     }
 
@@ -71,6 +73,7 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
         var add: Boolean
         var value: Double
         var date: String
+        var del: Boolean
 
         if (cursor.moveToFirst()) {
             do {
@@ -80,12 +83,14 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
                 add = cursor.getInt(cursor.getColumnIndex("addon"))>0
                 value = cursor.getDouble(cursor.getColumnIndex("value"))
                 date = cursor.getString(cursor.getColumnIndex("date"))
+                del = cursor.getInt(cursor.getColumnIndex("del"))>0
                 val mov= Movement( id,
                     description,
                     module,
                     add,
                     value,
-                    date)
+                    date,
+                    del)
                 movList.add(mov)
             } while (cursor.moveToNext())
         }
@@ -101,6 +106,7 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
         contentValues.put(KEY_ADDON, mov.add)
         contentValues.put(KEY_VALUE, mov.value)
         contentValues.put(KEY_DATE, mov.date)
+        contentValues.put(KEY_DEL, mov.del)
 
         // Updating Row
         val success = db.update(TABLE_MOV, contentValues,"id="+mov.id,null)
@@ -109,22 +115,44 @@ class MovementRepository(context: Context): SQLiteOpenHelper(context,DATABASE_NA
         return success
     }
     //method to delete data
-    fun deleteMovement(id: Int):Int{
+    private fun deleteMovement(id: Int):Int{
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(KEY_ID, id)
         // Deleting Row
-        val success = db.delete(TABLE_MOV,"id="+id,null)
+        val success = db.delete(TABLE_MOV, "id=$id",null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
     }
 
+    //Delete each Movement with status pending
+    fun cleanMovement(): Boolean{
+        val movList:ArrayList<Movement> = ArrayList<Movement>()
+        val selectQuery = "SELECT $KEY_ID FROM $TABLE_MOV WHERE $KEY_DEL"
+        val db = this.readableDatabase
+        var cursor: Cursor? = null
+        try{
+            cursor = db.rawQuery(selectQuery, null)
+        }catch (e: SQLiteException) {
+            db.execSQL(selectQuery)
+            return false
+        }
+        var id: Int
+        if (cursor.moveToFirst()) {
+            do {
+                id = cursor.getInt(cursor.getColumnIndex("id"))
+                deleteMovement(id)
+            } while (cursor.moveToNext())
+        }
+        return true
+    }
+
     //method to get the sum
     fun bilan():Double{
         val valQuery = "SELECT " +
-                "(SELECT SUM($KEY_VALUE) FROM $TABLE_MOV WHERE $KEY_ADDON) - " +
-                "(SELECT SUM($KEY_VALUE) FROM $TABLE_MOV WHERE NOT($KEY_ADDON)) as res"
+                "(SELECT SUM($KEY_VALUE) FROM $TABLE_MOV WHERE $KEY_ADDON AND NOT($KEY_DEL)) - " +
+                "(SELECT SUM($KEY_VALUE) FROM $TABLE_MOV WHERE NOT($KEY_ADDON) AND NOT($KEY_DEL)) as res"
         val db = this.readableDatabase
         var cursor: Cursor? = null
         var res = 0.0
